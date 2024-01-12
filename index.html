@@ -4,33 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Validation</title>
-    <style>
-        table,
-        th,
-        td {
-          border: 1px solid black;
-          border-collapse: collapse;
-        }
-        .table-content{
-          padding-top: 10px;
-        }
-      </style>
+    <link href="style.css" rel="stylesheet"/>
   </head>
   <body>
-    <form  id="user-form" onsubmit="test(); return false;">
+    <form  id="user_form" onsubmit="formSubmission(); return false;">
       <label for="name">Name:</label><br>
-      <input id="user-name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
+      <input id="user_name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
       <label for="mail">Email:</label><br>
-      <input id="user-mail" type="email" name="mail" required /><br /><br />
+      <input id="user_mail" type="email" name="mail" required /><br /><br />
       <label for="phone">Phone Number:</label><br>
-      <input id="user-phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
+      <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
       <label for="fname">Age:</label><br>
-      <input id="user-age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
+      <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
       <input type="submit" value="Submit" />
       <input type="reset" value="Reset"/>
     </form>
-    <div class="table-content">
-    <table id="myTable" style="width: 100vw">
+    <div class="table_content">
+    <table id="my_table">
       <tr>
         <th>Name</td>
         <th>Email</td>
@@ -42,38 +32,10 @@
         <td></td>
         <td></td>
         <td></td>
-
       </tr>
     </table>
   </div>
-    <script>
-function isNumberKey(evt) {
-      var charCode = (evt.which) ? evt.which : event.keyCode;
-      if (charCode < 48 || charCode > 57) {
-        return false;
-      }
-      return true;
-    }
-    function allowOnlyLetters(evt) {
-      var charCode = (evt.which) ? evt.which : event.keyCode;
-      if ((charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) && charCode !== 32) {
-        return false;
-      }
-      return true;
-    }
-      function test() {
-        let table = document.getElementById("myTable");
-        let row = table.insertRow(-1);
-        let c1 = row.insertCell(0);
-        let c2 = row.insertCell(1);
-        let c3 = row.insertCell(2);
-        let c4 = row.insertCell(3);
-        c1.innerText = document.getElementById("user-name").value;
-        c2.innerText = document.getElementById("user-mail").value;
-        c3.innerText = document.getElementById("user-phone").value;
-        c4.innerHTML = document.getElementById("user-age").value;
-      }
-    </script>
+  <script src="script.js"></script>
   </body>
 </html>
 
