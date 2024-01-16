@@ -1,6 +1,5 @@
 const entries=[];
-var user_count=0;
-
+var x=1;
 function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode < 48 || charCode > 57) {
@@ -18,71 +17,49 @@ function isNumberKey(evt) {
   }
 
     function formSubmission() {
-      // let table = document.getElementById("my_table");
-      // let row = table.insertRow();
-      // let c1 = row.insertCell(0);
-      // let c2 = row.insertCell(1);
-      // let c3 = row.insertCell(2);
-      // let c4 = row.insertCell(3);
-      // c1.innerText = document.getElementById("user_name").value;
-      // c2.innerText = document.getElementById("user_mail").value;
-      // c3.innerText = document.getElementById("user_phone").value;
-      // c4.innerHTML = document.getElementById("user_age").value;
       const user_obj={}
       user_obj.name = document.getElementById("user_name").value;
       user_obj.mail = document.getElementById("user_mail").value;
       user_obj.phone = document.getElementById("user_phone").value;
       user_obj.age = document.getElementById("user_age").value; 
-    if(user_count<5){
       let table = document.getElementById("my_table");
-      let row = table.insertRow();
-      let c1 = row.insertCell(0);
-      let c2 = row.insertCell(1);
-      let c3 = row.insertCell(2);
-      let c4 = row.insertCell(3);
-      c1.innerHTML=user_obj.name;
-      c2.innerHTML=user_obj.mail;
-      c3.innerHTML=user_obj.phone;
-      c4.innerHTML=user_obj.age;
-    } 
-    // if(user_count==5){
-    //   event.preventDefault()
-    //   var element=document.getElementById("pagination")
-    //   element.classList.add("display_pagination");
-
-    // }
-    user_count++;
-    entries.push(user_obj);
-    
+      
+      entries.push(user_obj);
+      displayUser();
     console.log(entries)
         //document.getElementById("user_form").reset();
     }
-    
-
-
-  //   function displayUser() {
-  //     // Store entries in local storage
-  //     localStorage.setItem("userEntries", JSON.stringify(entries));
-  
-  //     // Redirect to the new HTML page
-  //     window.location.href = "newPage.html";
-  // }
 
     function displayUser(){
-      entries.map((user)=>{
       let table = document.getElementById("my_table");
-      let row = table.insertRow();
-      let c1 = row.insertCell(0);
-      let c2 = row.insertCell(1);
-      let c3 = row.insertCell(2);
-      let c4 = row.insertCell(3);
-      c1.innerText = user.name;
-      c2.innerText = user.mail;
-      c3.innerText = user.phone;
-      c4.innerHTML = user.age;
+      while (table.rows.length > 1) {
+        table.deleteRow(1);
+      }
+      entries.map((user,index)=>{    
+        if((index<(5*x))&&(index>=(5*(x-1)))){
+          let row = table.insertRow();
+          let c1 = row.insertCell(0);
+          let c2 = row.insertCell(1);
+          let c3 = row.insertCell(2);
+          let c4 = row.insertCell(3);
+          c1.innerHTML = user.name;
+          c2.innerHTML = user.mail;
+          c3.innerHTML = user.phone;
+          c4.innerHTML = user.age;
+        }
         })
      }
   
+     function next(){
+      x++;
+      displayUser();
+     }
+
+     function previous(){
+      x--;
+      displayUser();
+     }
+
     document.getElementById("user_age").addEventListener("change", function() {
       let v = parseInt(this.value);
       if (v < 18){
@@ -99,4 +76,10 @@ function isNumberKey(evt) {
       //   window.location.href="index.html";
       // }
 
-   
+   //   function displayUser() {
+  //     // Store entries in local storage
+  //     localStorage.setItem("userEntries", JSON.stringify(entries));
+  
+  //     // Redirect to the new HTML page
+  //     window.location.href = "newPage.html";
+  // }
