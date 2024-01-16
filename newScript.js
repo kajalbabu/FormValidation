@@ -1,13 +1,23 @@
- entries=localStorage.getItem("userData")
- entries.map((user)=>{
-      let table = document.getElementById("my_table");
-      let row = table.insertRow();
-      let c1 = row.insertCell(0);
-      let c2 = row.insertCell(1);
-      let c3 = row.insertCell(2);
-      let c4 = row.insertCell(3);
-      c1.innerText = user.name;
-      c2.innerText = user.mail;
-      c3.innerText = user.phone;
-      c4.innerHTML = user.age;
-        })
+document.addEventListener("DOMContentLoaded", function () {
+  // Retrieve entries from local storage
+  const storedEntries = localStorage.getItem("userEntries");
+
+  if (storedEntries) {
+      const entries = JSON.parse(storedEntries);
+
+      // Display user details on the new page
+      const contentDiv = document.getElementById("content");
+
+      entries.forEach((user) => {
+          const userDiv = document.createElement("div");
+          userDiv.innerHTML = `
+              <p>Name: ${user.name}</p>
+              <p>Email: ${user.mail}</p>
+              <p>Phone: ${user.phone}</p>
+              <p>Age: ${user.age}</p>
+          `;
+
+          contentDiv.appendChild(userDiv);
+      });
+  }
+});
