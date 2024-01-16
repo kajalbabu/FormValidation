@@ -26,12 +26,18 @@ function formSubmission() {
   user_obj.mail = document.getElementById("user_mail").value;
   user_obj.phone = document.getElementById("user_phone").value;
   user_obj.age = document.getElementById("user_age").value;
-  let table = document.getElementById("my_table");
+  if(document.getElementById("male").checked){
+      user_obj.gender=document.getElementById("male").value;
+  }
+  else{
+    user_obj.gender=document.getElementById("female").value;
+  }
 
+  //console.log(user_obj.gender);
   entries.push(user_obj);
   displayUser();
   console.log(entries);
-  document.getElementById("user_form").reset();
+  //document.getElementById("user_form").reset();
 }
 
 function displayUser() {
@@ -46,10 +52,12 @@ function displayUser() {
       let c2 = row.insertCell(1);
       let c3 = row.insertCell(2);
       let c4 = row.insertCell(3);
+      let c5 = row.insertCell(4);
       c1.innerHTML = user.name;
       c2.innerHTML = user.mail;
       c3.innerHTML = user.phone;
       c4.innerHTML = user.age;
+      c5.innerHTML = user.gender;
     }
   });
 
@@ -102,3 +110,7 @@ document.getElementById("user_age").addEventListener("change", function () {
 //     // Redirect to the new HTML page
 //     window.location.href = "newPage.html";
 // }
+
+
+
+

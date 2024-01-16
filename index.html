@@ -19,6 +19,13 @@
       <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
       <label for="fname">Age:</label><br>
       <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
+
+      <label for="gender">Gender:</label><br>
+      <input type="radio" id="male" name="gender" value="male" required>
+      <label for="gender">Male</label><br>
+      <input type="radio" id="female" name="gender" value="female" >
+      <label for="gender">Female</label><br>
+
       <input id="user_submit" type="submit" value="Submit" />
       <input id="user_reset" type="reset" value="Reset"/>
     </form>
@@ -27,13 +34,14 @@
       <caption>User Details</caption>
       <thead>
       <tr>
-        <th>Name</td>
-        <th>Email</td>
-        <th>Phone</td>
-        <th>Age</td>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Age</th>
+        <th>Gender</th>
       </tr>
     </thead>
-      <tbody class="table_body">
+      <tbody id="table_body">
     </tbody>
     </table>
   </div>
