@@ -51,3 +51,23 @@ caption{
   font-size: 20vw;
  }
 }
+#nextButton {
+  width: 65px;
+  height: 30px;
+  font-weight: bold;
+  background-color:rgba(32, 32, 29, 0.61);
+  margin-top: 20px;
+  padding: 2px;
+}
+#prevButton{
+  height: 30px;
+  font-weight: bold;
+  background-color:rgba(32, 32, 29, 0.61);
+  margin-top: 20px;
+  padding: 2px;
+}
+.page_button{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

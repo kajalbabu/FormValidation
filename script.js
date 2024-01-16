@@ -31,7 +31,7 @@ function formSubmission() {
   entries.push(user_obj);
   displayUser();
   console.log(entries);
-  //document.getElementById("user_form").reset();
+  document.getElementById("user_form").reset();
 }
 
 function displayUser() {
