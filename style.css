@@ -1,12 +1,59 @@
+
 table,
 th,
 td {
-  border: 1px solid black;
   border-collapse: collapse;
+  border: 1px solid black;
+}
+tr:nth-child(even) {
+  background-color: #b6cada;
 }
 .table_content {
-  padding-top: 10px;
+  margin-top: 40px;
+  padding-top: 30px;
+  max-height: 185px;
+  overflow-x: auto; 
+  overflow-y: auto;
 }
 #my_table{
-    width: 100vw;
+    width: 100%;
+
+    /* background-color:rgb(185, 185, 228); */
 }
+form{
+  overflow-x: auto; 
+  overflow-y: auto;
+}
+#user_submit{
+  margin-right: 20px;
+  width: 150px;
+  height: 30px;
+  font-weight: bold;
+  background-color: rgba(32, 32, 29, 0.61);
+}
+#user_reset{
+  margin-right: 20px;
+  width: 150px;
+  height: 30px;
+  font-weight: bold;
+  background-color:rgba(32, 32, 29, 0.61);
+  margin-top: 10px;
+}
+body{
+  background-color: rgb(228, 233, 238);
+}
+caption{
+  padding-bottom: 20px;
+  font-size: 30px;
+}
+@media (max-width:150px){
+ h1{
+  font-size: 20vw;
+ }
+}
+/* .pagination{
+  visibility: hidden;
+}
+.display_pagination{
+ visibility: visible;
+} */

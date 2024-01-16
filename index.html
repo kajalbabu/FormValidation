@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,8 @@
     <link href="style.css" rel="stylesheet"/>
   </head>
   <body>
+    <h1>FORM</h1>
+    <div class="body_class">
     <form  id="user_form" onsubmit="formSubmission(); return false;">
       <label for="name">Name:</label><br>
       <input id="user_name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
@@ -16,26 +19,33 @@
       <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
       <label for="fname">Age:</label><br>
       <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
-      <input type="submit" value="Submit" />
-      <input type="reset" value="Reset"/>
+      <input id="user_submit" type="submit" value="Submit" />
+      <input id="user_reset" type="reset" value="Reset"/>
     </form>
     <div class="table_content">
     <table id="my_table">
+      <caption>User Details</caption>
+      <thead>
       <tr>
         <th>Name</td>
         <th>Email</td>
         <th>Phone</td>
         <th>Age</td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+    </thead>
+      <tbody class="table_body">
+    </tbody>
     </table>
   </div>
+
+  <!-- <a href="newPage.html" onclick="displayUser()">Next</a> -->
+
+  <div>
+    <button class="pagination" onclick="displayUser()" >Next</button>
+  </div>
   <script src="script.js"></script>
+  <!-- <script src="newScript.js"></script> -->
+</div>
   </body>
 </html>
 
