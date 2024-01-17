@@ -13,19 +13,42 @@
     <form  id="user_form" onsubmit="formSubmission(); return false;">
       <label for="name">Name:</label><br>
       <input id="user_name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
+
       <label for="mail">Email:</label><br>
       <input id="user_mail" type="email" name="mail" required /><br /><br />
+
       <label for="phone">Phone Number:</label><br>
       <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
-      <label for="fname">Age:</label><br>
+
+      <label for="age">Age:</label><br>
       <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
 
       <label for="gender">Gender:</label><br>
       <input type="radio" id="male" name="gender" value="male" required>
       <label for="gender">Male</label><br>
       <input type="radio" id="female" name="gender" value="female" >
-      <label for="gender">Female</label><br>
+      <label for="gender">Female</label><br><br>
 
+      <label for="interest">Area of Interest:</label><br><br>
+      <div class="body_interest">
+      <select name="interest" id="areaOfInterest" multiple>
+      <option value="Java">Java</option>
+      <option value="C++">C++</option>
+      <option value="C">C</option>
+      <option value="HTML">HTML</option>
+      <option value="CSS">CSS</option>
+      <option value="JavaScript">JavaScript</option>
+
+      </select>
+      <div class="move_button">
+      <input class="move" onclick="addTo_list()" value=">>" type="button"> 
+      <input class="move" onclick="addFrom_list()" value="<<" type="button"> 
+      </div>
+      <select name="interest" id="areaOfInterestDest"  multiple></select>
+
+    </div>
+      <br><br>
+      
       <input id="user_submit" type="submit" value="Submit" />
       <input id="user_reset" type="reset" value="Reset"/>
     </form>
@@ -39,6 +62,7 @@
         <th>Phone</th>
         <th>Age</th>
         <th>Gender</th>
+        <th>Area of Interest</Area></th>
       </tr>
     </thead>
       <tbody id="table_body">

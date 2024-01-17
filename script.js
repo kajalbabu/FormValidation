@@ -25,7 +25,8 @@ function formSubmission() {
   user_obj.name = document.getElementById("user_name").value;
   user_obj.mail = document.getElementById("user_mail").value;
   user_obj.phone = document.getElementById("user_phone").value;
-  user_obj.age = document.getElementById("user_age").value;
+  user_obj.age = document.getElementById("user_age").value;  
+
   if(document.getElementById("male").checked){
       user_obj.gender=document.getElementById("male").value;
   }
@@ -33,10 +34,14 @@ function formSubmission() {
     user_obj.gender=document.getElementById("female").value;
   }
 
-  //console.log(user_obj.gender);
+  var interested= document.getElementById("areaOfInterestDest");
+  const result=[]
+  for(var i=interested.options.length-1;i>=0;i--){
+    result.push(interested.options[i].value);
+  }
+  user_obj.interest=result;
   entries.push(user_obj);
   displayUser();
-  console.log(entries);
   //document.getElementById("user_form").reset();
 }
 
@@ -53,11 +58,13 @@ function displayUser() {
       let c3 = row.insertCell(2);
       let c4 = row.insertCell(3);
       let c5 = row.insertCell(4);
+      let c6 = row.insertCell(5);
       c1.innerHTML = user.name;
       c2.innerHTML = user.mail;
       c3.innerHTML = user.phone;
       c4.innerHTML = user.age;
       c5.innerHTML = user.gender;
+      c6.innerHTML = user.interest;
     }
   });
 
@@ -99,6 +106,41 @@ document.getElementById("user_age").addEventListener("change", function () {
   }
 });
 
+function addTo_list(){
+var sourceList= document.getElementById("areaOfInterest");
+var destinationList= document.getElementById("areaOfInterestDest");
+  for( var i=sourceList.options.length-1;i>=0;i--)	{
+    if(sourceList.options[i].selected){
+      addOption(destinationList, sourceList.options[i].value, sourceList.options[i].text);
+      removeOption(sourceList, i);
+    }
+  }
+}
+
+function addOption(selectElement, value, text){
+  var newOption= document.createElement('option');
+  newOption.value=value;
+  newOption.text=text;
+  selectElement.add(newOption);
+  // for(var i=selectElement.options.length-1;i>=0;i--){
+  //   console.log(selectElement.options[i].value)
+  // }
+}
+
+function removeOption(selectElement, index){
+  selectElement.remove(index);
+}
+
+function addFrom_list(){
+  var sourceList= document.getElementById("areaOfInterestDest");
+  var destinationList= document.getElementById("areaOfInterest");
+  for(var i=sourceList.options.length-1;i>=0;i--){
+    if(sourceList.options[i].selected){
+      addOption(destinationList, sourceList.options[i].value, sourceList.options[i].text);
+      removeOption(sourceList, i);
+    }
+  }
+}
 // function goBack(){
 //   window.location.href="index.html";
 // }

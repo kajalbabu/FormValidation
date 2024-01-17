@@ -20,6 +20,11 @@ tr:nth-child(even) {
 
     /* background-color:rgb(185, 185, 228); */
 }
+/* #user_form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
 form{
   overflow-x: auto; 
   overflow-y: auto;
@@ -30,6 +35,7 @@ form{
   height: 30px;
   font-weight: bold;
   background-color: rgba(32, 32, 29, 0.61);
+  cursor: pointer;
 }
 #user_reset{
   margin-right: 20px;
@@ -38,6 +44,7 @@ form{
   font-weight: bold;
   background-color:rgba(32, 32, 29, 0.61);
   margin-top: 10px;
+  cursor: pointer;
 }
 body{
   background-color: rgb(228, 233, 238);
@@ -58,6 +65,7 @@ caption{
   background-color:rgba(32, 32, 29, 0.61);
   margin-top: 20px;
   padding: 2px;
+  cursor: pointer;
 }
 #prevButton{
   height: 30px;
@@ -65,9 +73,29 @@ caption{
   background-color:rgba(32, 32, 29, 0.61);
   margin-top: 20px;
   padding: 2px;
+  cursor: pointer;
 }
 .page_button{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+.move_button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.move{
+  cursor: pointer;
+}
+.body_interest{
+  display: flex;
+  gap: 20px;
+}
+#areaOfInterest{
+  min-width: 80px;
+}
+#areaOfInterestDest{
+  min-width: 80px;
 }
