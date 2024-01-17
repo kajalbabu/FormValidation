@@ -1,5 +1,7 @@
 const entries = [];
-var x = 1;
+var searchKey="";
+var page = 1;
+var limit=6;
 function isNumberKey(evt) {
   var charCode = evt.which ? evt.which : evt.keyCode;
   if (charCode < 48 || charCode > 57) {
@@ -18,6 +20,10 @@ function allowOnlyLetters(evt) {
     return false;
   }
   return true;
+}
+function toggleTableVisibility() {
+  let table = document.getElementById("my_table");
+  table.style.display = table.style.display == "none" ? "table" : "none";
 }
 
 function formSubmission() {
@@ -45,13 +51,23 @@ function formSubmission() {
   //document.getElementById("user_form").reset();
 }
 
+function filterData(data){
+    if(searchKey==""){
+      return data;
+    }
+    else{
+      return data.filter((item)=>{return item.name.toLowerCase().startsWith(searchKey.toLowerCase())})
+    }
+}
+
 function displayUser() {
   let table = document.getElementById("my_table");
   while (table.rows.length > 1) {
     table.deleteRow(1);
   }
-  entries.map((user, index) => {
-    if (index < 6 * x && index >= 6 * (x - 1)) {
+  var filteredData=filterData(entries);
+  filteredData.map((user, index) => {
+    if (index < limit * page && index >= limit * (page - 1)) {
       let row = table.insertRow();
       let c1 = row.insertCell(0);
       let c2 = row.insertCell(1);
@@ -71,13 +87,13 @@ function displayUser() {
   let nextButton = document.getElementById("nextButton");
   let prevButton = document.getElementById("prevButton");
 
-  if (entries.length > 6 * x) {
+  if (filteredData.length > limit * page) {
     nextButton.style.display = "block";
   } else {
     nextButton.style.display = "none";
   }
 
-  if (x > 1) {
+  if (page > 1) {
     prevButton.style.display = "block";
   } else {
     prevButton.style.display = "none";
@@ -85,12 +101,12 @@ function displayUser() {
 }
 
 function next() {
-  x++;
+  page++;
   displayUser();
 }
 
 function previous() {
-  x--;
+  page--;
   displayUser();
 }
 
@@ -141,18 +157,15 @@ function addFrom_list(){
     }
   }
 }
-// function goBack(){
-//   window.location.href="index.html";
-// }
 
-//   function displayUser() {
-//     // Store entries in local storage
-//     localStorage.setItem("userEntries", JSON.stringify(entries));
-
-//     // Redirect to the new HTML page
-//     window.location.href = "newPage.html";
-// }
-
-
+function setSearch(){
+  searchKey=document.getElementById("filter_search").value;
+  displayUser();
+}
+function resetSearch(){
+  document.getElementById("filter_search").value="";
+  searchKey="";
+  displayUser();
+}
 
 

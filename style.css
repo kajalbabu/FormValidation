@@ -1,4 +1,8 @@
-
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 table,
 th,
 td {
@@ -9,22 +13,42 @@ tr:nth-child(even) {
   background-color: #b6cada;
 }
 .table_content {
-  margin-top: 40px;
+  margin-top: 20px;
   padding-top: 30px;
   max-height: 185px;
   overflow-x: auto; 
   overflow-y: auto;
+  width: 100%;
 }
 #my_table{
     width: 100%;
-
-    /* background-color:rgb(185, 185, 228); */
+    display: none;
 }
-/* #user_form{
+#showTableButton{
+  margin-right: 20px;
+  margin-top: 10px;
+  width: 150px;
+  height: 30px;
+  font-weight: bold;
+  background-color: rgba(199, 199, 51, 0.61);
+  cursor: pointer;
+}
+.body_class{
   display: flex;
   flex-direction: column;
+  margin: 10px;
+  box-shadow: 1px 1px 10px black;
+  width: fit-content;
+  padding: 10px 50px;
+  border-radius: 5px;
   align-items: center;
-} */
+  justify-content: center;
+  background-color: white;
+}
+#gender{
+  display: flex;
+  align-items: center;
+}
 form{
   overflow-x: auto; 
   overflow-y: auto;
@@ -66,6 +90,7 @@ caption{
   margin-top: 20px;
   padding: 2px;
   cursor: pointer;
+  display: none;
 }
 #prevButton{
   height: 30px;
@@ -74,6 +99,7 @@ caption{
   margin-top: 20px;
   padding: 2px;
   cursor: pointer;
+  display: none;
 }
 .page_button{
   display: flex;

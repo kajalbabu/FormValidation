@@ -8,29 +8,33 @@
     <link href="style.css" rel="stylesheet"/>
   </head>
   <body>
-    <h1>FORM</h1>
+    
     <div class="body_class">
+      <h1>FORM</h1>
     <form  id="user_form" onsubmit="formSubmission(); return false;">
-      <label for="name">Name:</label><br>
-      <input id="user_name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
+      <!-- <label for="name">Name:</label><br> -->
+      Name: <input id="user_name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
 
-      <label for="mail">Email:</label><br>
-      <input id="user_mail" type="email" name="mail" required /><br /><br />
+      <!-- <label for="mail">Email:</label><br> -->
+      Email: <input id="user_mail" type="email" name="mail" required /><br /><br />
 
-      <label for="phone">Phone Number:</label><br>
-      <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
+      <!-- <label for="phone">Phone Number:</label><br> -->
+      Phone Number: <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
 
-      <label for="age">Age:</label><br>
-      <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
+      <!-- <label for="age">Age:</label><br> -->
+      Age: <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
 
-      <label for="gender">Gender:</label><br>
+      <!-- <label for="gender">Gender:</label><br> -->
+      <div id="gender">Gender:
       <input type="radio" id="male" name="gender" value="male" required>
       <label for="gender">Male</label><br>
       <input type="radio" id="female" name="gender" value="female" >
       <label for="gender">Female</label><br><br>
-
-      <label for="interest">Area of Interest:</label><br><br>
+    </div>
+      <!-- <label for="interest">Area of Interest:</label><br><br> -->
+      
       <div class="body_interest">
+      Area of Interest:
       <select name="interest" id="areaOfInterest" multiple>
       <option value="Java">Java</option>
       <option value="C++">C++</option>
@@ -52,9 +56,17 @@
       <input id="user_submit" type="submit" value="Submit" />
       <input id="user_reset" type="reset" value="Reset"/>
     </form>
+  </div>
+    <button id="showTableButton" onclick="toggleTableVisibility()">Show/Hide Table</button>
     <div class="table_content">
     <table id="my_table">
       <caption>User Details</caption>
+      <div>
+        <input type="search" id="filter_search">
+        <button onclick="setSearch()">Search</button>
+        <button onclick="resetSearch()">Reset</button>
+      </div>
+
       <thead>
       <tr>
         <th>Name</th>
@@ -73,10 +85,8 @@
     <button id="nextButton" onclick="next()" >Next</button>
     <button id="prevButton" onclick="previous()" >Previous</button>
   </div>
-  <script src="script.js"></script>
-  <!-- <script src="newScript.js"></script> -->
-</div>
   </body>
+  <script src="script.js"></script>
 </html>
 
 
