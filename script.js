@@ -5,6 +5,7 @@ var searchKey = "";
 var page = 1;
 var limit = 6;
 var key = 1;
+var edit=false;
 function isNumberKey(evt) {
   var charCode = evt.which ? evt.which : evt.keyCode;
   if (charCode < 48 || charCode > 57) {
@@ -34,6 +35,13 @@ function toggleTableVisibility() {
   } else {
     table.style.display = "none";
   }
+}
+function newFormSubmission(){
+
+}
+
+function editFormSubmission(){
+
 }
 
 function formSubmission() {
@@ -101,6 +109,7 @@ function displayUser() {
       c4.innerHTML = user.age;
       c5.innerHTML = user.gender;
       c6.innerHTML = user.interest;
+      c7.appendChild(createEditButton(user.key));
       c7.appendChild(createDeleteButton(user.key));
     }
   });
@@ -121,9 +130,21 @@ function displayUser() {
   }
 }
 
+function createEditButton(key){
+  var btn = document.createElement("button");
+  btn.key=key;
+  btn.className="delete_button"
+  btn.innerText = "Edit";
+  btn.onclick= () => {
+
+  }
+  return btn;
+}
+
 function createDeleteButton(key) {
   var btn = document.createElement("button");
   btn.key = key;
+  btn.className="delete_button";
   btn.innerText = "Delete";
   btn.onclick = () => {
     return DeleteRow(key);
