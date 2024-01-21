@@ -1,7 +1,10 @@
-const entries = [];
-var searchKey="";
+var entries = localStorage.getItem("entries")
+  ? JSON.parse(localStorage.getItem("entries"))
+  : [];
+var searchKey = "";
 var page = 1;
-var limit=6;
+var limit = 6;
+var key = 1;
 function isNumberKey(evt) {
   var charCode = evt.which ? evt.which : evt.keyCode;
   if (charCode < 48 || charCode > 57) {
@@ -22,42 +25,58 @@ function allowOnlyLetters(evt) {
   return true;
 }
 function toggleTableVisibility() {
-  let table = document.getElementById("my_table");
-  table.style.display = table.style.display == "none" ? "table" : "none";
+  let table = document.getElementById("table_content");
+  console.log(table.style.display);
+  if (table.style.display == "none") {
+    table.style.display = "block";
+    console.log("hi");
+    displayUser();
+  } else {
+    table.style.display = "none";
+  }
 }
 
 function formSubmission() {
   const user_obj = {};
+  user_obj.key = key++;
   user_obj.name = document.getElementById("user_name").value;
   user_obj.mail = document.getElementById("user_mail").value;
   user_obj.phone = document.getElementById("user_phone").value;
-  user_obj.age = document.getElementById("user_age").value;  
+  user_obj.age = document.getElementById("user_age").value;
 
-  if(document.getElementById("male").checked){
-      user_obj.gender=document.getElementById("male").value;
-  }
-  else{
-    user_obj.gender=document.getElementById("female").value;
+  if (document.getElementById("male").checked) {
+    user_obj.gender = document.getElementById("male").value;
+  } else {
+    user_obj.gender = document.getElementById("female").value;
   }
 
-  var interested= document.getElementById("areaOfInterestDest");
-  const result=[]
-  for(var i=interested.options.length-1;i>=0;i--){
+  var interested = document.getElementById("areaOfInterestDest");
+  const result = [];
+  for (var i = interested.options.length - 1; i >= 0; i--) {
     result.push(interested.options[i].value);
   }
-  user_obj.interest=result;
+  user_obj.interest = result;
   entries.push(user_obj);
+  localStorage.setItem("entries", JSON.stringify(entries));
   displayUser();
-  //document.getElementById("user_form").reset();
+  // document.getElementById("user_form").reset();
+  // document.getElementById("areaOfInterestDest").reset();
 }
 
-function filterData(data){
-    if(searchKey==""){
-      return data;
-    }
-    else{
-      return data.filter((item)=>{return item.name.toLowerCase().startsWith(searchKey.toLowerCase())})
-    }
+function changeLimit() {
+  limit = document.getElementById("limitSelect").value;
+  page = 1;
+  displayUser();
+}
+
+function filterData(data) {
+  if (searchKey == "") {
+    return data;
+  } else {
+    return data.filter((item) => {
+      return item.name.toLowerCase().startsWith(searchKey.toLowerCase());
+    });
+  }
 }
 
 function displayUser() {
@@ -65,7 +84,7 @@ function displayUser() {
   while (table.rows.length > 1) {
     table.deleteRow(1);
   }
-  var filteredData=filterData(entries);
+  var filteredData = filterData(entries);
   filteredData.map((user, index) => {
     if (index < limit * page && index >= limit * (page - 1)) {
       let row = table.insertRow();
@@ -75,12 +94,14 @@ function displayUser() {
       let c4 = row.insertCell(3);
       let c5 = row.insertCell(4);
       let c6 = row.insertCell(5);
+      let c7 = row.insertCell(6);
       c1.innerHTML = user.name;
       c2.innerHTML = user.mail;
       c3.innerHTML = user.phone;
       c4.innerHTML = user.age;
       c5.innerHTML = user.gender;
       c6.innerHTML = user.interest;
+      c7.appendChild(createDeleteButton(user.key));
     }
   });
 
@@ -98,6 +119,24 @@ function displayUser() {
   } else {
     prevButton.style.display = "none";
   }
+}
+
+function createDeleteButton(key) {
+  var btn = document.createElement("button");
+  btn.key = key;
+  btn.innerText = "Delete";
+  btn.onclick = () => {
+    return DeleteRow(key);
+  };
+  return btn;
+}
+
+function DeleteRow(key) {
+  entries = entries.filter((data) => {
+    return data.key != key;
+  });
+  localStorage.setItem("entries", JSON.stringify(entries));
+  displayUser();
 }
 
 function next() {
@@ -122,50 +161,74 @@ document.getElementById("user_age").addEventListener("change", function () {
   }
 });
 
-function addTo_list(){
-var sourceList= document.getElementById("areaOfInterest");
-var destinationList= document.getElementById("areaOfInterestDest");
-  for( var i=sourceList.options.length-1;i>=0;i--)	{
-    if(sourceList.options[i].selected){
-      addOption(destinationList, sourceList.options[i].value, sourceList.options[i].text);
+function resetForm() {
+  document.getElementById("user_form").reset();
+  resetAreaOfInterest();
+}
+
+function resetAreaOfInterest() {
+  var sourceList = document.getElementById("areaOfInterestDest");
+  var destinationList = document.getElementById("areaOfInterest");
+  for (var i = sourceList.options.length - 1; i >= 0; i--) {
+    addOption(
+      destinationList,
+      sourceList.options[i].value,
+      sourceList.options[i].text
+    );
+    removeOption(sourceList, i);
+  }
+}
+
+function addTo_list() {
+  var sourceList = document.getElementById("areaOfInterest");
+  var destinationList = document.getElementById("areaOfInterestDest");
+  for (var i = sourceList.options.length - 1; i >= 0; i--) {
+    if (sourceList.options[i].selected) {
+      addOption(
+        destinationList,
+        sourceList.options[i].value,
+        sourceList.options[i].text
+      );
       removeOption(sourceList, i);
     }
   }
 }
 
-function addOption(selectElement, value, text){
-  var newOption= document.createElement('option');
-  newOption.value=value;
-  newOption.text=text;
+function addOption(selectElement, value, text) {
+  var newOption = document.createElement("option");
+  newOption.value = value;
+  newOption.text = text;
   selectElement.add(newOption);
   // for(var i=selectElement.options.length-1;i>=0;i--){
   //   console.log(selectElement.options[i].value)
   // }
 }
 
-function removeOption(selectElement, index){
+function removeOption(selectElement, index) {
   selectElement.remove(index);
 }
 
-function addFrom_list(){
-  var sourceList= document.getElementById("areaOfInterestDest");
-  var destinationList= document.getElementById("areaOfInterest");
-  for(var i=sourceList.options.length-1;i>=0;i--){
-    if(sourceList.options[i].selected){
-      addOption(destinationList, sourceList.options[i].value, sourceList.options[i].text);
+function addFrom_list() {
+  var sourceList = document.getElementById("areaOfInterestDest");
+  var destinationList = document.getElementById("areaOfInterest");
+  for (var i = sourceList.options.length - 1; i >= 0; i--) {
+    if (sourceList.options[i].selected) {
+      addOption(
+        destinationList,
+        sourceList.options[i].value,
+        sourceList.options[i].text
+      );
       removeOption(sourceList, i);
     }
   }
 }
 
-function setSearch(){
-  searchKey=document.getElementById("filter_search").value;
+function setSearch() {
+  searchKey = document.getElementById("filter_search").value;
   displayUser();
 }
-function resetSearch(){
-  document.getElementById("filter_search").value="";
-  searchKey="";
+function resetSearch() {
+  document.getElementById("filter_search").value = "";
+  searchKey = "";
   displayUser();
 }
-
-

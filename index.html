@@ -1,125 +1,155 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Validation</title>
-    <link href="style.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet" />
   </head>
   <body>
-    
     <div class="body_class">
       <h1>FORM</h1>
-    <form  id="user_form" onsubmit="formSubmission(); return false;">
-      <!-- <label for="name">Name:</label><br> -->
-      Name: <input id="user_name" type="text" name="name" required pattern="[A-Za-z ]{1,}$" onkeypress="return allowOnlyLetters(event)"/><br /><br />
+      <form id="user_form" onsubmit="formSubmission(); return false;">
+        <div class="form_body">
+          <div class="input_details">
+            <label for="name">Name:</label>
+            <input
+              id="user_name"
+              type="text"
+              name="name"
+              required
+              pattern="[A-Za-z ]{1,}$"
+              onkeypress="return allowOnlyLetters(event)"
+            />
+          </div>
 
-      <!-- <label for="mail">Email:</label><br> -->
-      Email: <input id="user_mail" type="email" name="mail" required /><br /><br />
+          <div class="input_details">
+            <label for="mail">Email:</label>
+            <input id="user_mail" type="email" name="mail" required />
+          </div>
 
-      <!-- <label for="phone">Phone Number:</label><br> -->
-      Phone Number: <input id="user_phone" type="text" name="phone" required pattern="[6-9]{1}[0-9]{9}" onkeypress="return isNumberKey(event)"/><br /><br />
+          <div class="input_details">
+            <label for="phone">Phone Number:</label>
+            <input
+              id="user_phone"
+              type="text"
+              name="phone"
+              required
+              pattern="[6-9]{1}[0-9]{9}"
+              onkeypress="return isNumberKey(event)"
+            />
+          </div>
 
-      <!-- <label for="age">Age:</label><br> -->
-      Age: <input id="user_age" type="number" name="age" required min="1" max="120" step="1"/><br /><br />
+          <div class="input_details">
+            <label for="age">Age:</label>
+            <input
+              id="user_age"
+              type="number"
+              name="age"
+              required
+              min="1"
+              max="120"
+              step="1"
+            />
+          </div>
 
-      <!-- <label for="gender">Gender:</label><br> -->
-      <div id="gender">Gender:
-      <input type="radio" id="male" name="gender" value="male" required>
-      <label for="gender">Male</label><br>
-      <input type="radio" id="female" name="gender" value="female" >
-      <label for="gender">Female</label><br><br>
+          <div class="input_details">
+            <label for="gender">Gender:</label>
+            <div id="gender">
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                value="male"
+                required
+              />
+              <label for="gender">Male</label>
+              <input type="radio" id="female" name="gender" value="female" />
+              <label for="gender">Female</label>
+            </div>
+          </div>
+
+          <div class="input_details">
+            <label for="interest">Area of Interest:</label>
+            <div class="body_interest">
+              <select name="interest" id="areaOfInterest" multiple>
+                <option value="Java">Java</option>
+                <option value="C++">C++</option>
+                <option value="C">C</option>
+                <option value="HTML">HTML</option>
+                <option value="CSS">CSS</option>
+                <option value="JavaScript">JavaScript</option>
+              </select>
+              <div class="move_button">
+                <input
+                  class="move"
+                  onclick="addTo_list()"
+                  value=">>"
+                  type="button"
+                />
+                <input
+                  class="move"
+                  onclick="addFrom_list()"
+                  value="<<"
+                  type="button"
+                />
+              </div>
+              <select name="interest" id="areaOfInterestDest" multiple></select>
+            </div>
+          </div>
+        </div>
+        <div class="form_buttons">
+          <input id="user_submit" type="submit" value="Submit" />
+          <input
+            id="user_reset"
+            type="reset"
+            value="Reset"
+            onclick="resetForm()"
+          />
+        </div>
+      </form>
     </div>
-      <!-- <label for="interest">Area of Interest:</label><br><br> -->
-      
-      <div class="body_interest">
-      Area of Interest:
-      <select name="interest" id="areaOfInterest" multiple>
-      <option value="Java">Java</option>
-      <option value="C++">C++</option>
-      <option value="C">C</option>
-      <option value="HTML">HTML</option>
-      <option value="CSS">CSS</option>
-      <option value="JavaScript">JavaScript</option>
+    <button id="showTableButton" onclick="toggleTableVisibility()">
+      Show/Hide Table
+    </button>
 
-      </select>
-      <div class="move_button">
-      <input class="move" onclick="addTo_list()" value=">>" type="button"> 
-      <input class="move" onclick="addFrom_list()" value="<<" type="button"> 
-      </div>
-      <select name="interest" id="areaOfInterestDest"  multiple></select>
-
-    </div>
-      <br><br>
-      
-      <input id="user_submit" type="submit" value="Submit" />
-      <input id="user_reset" type="reset" value="Reset"/>
-    </form>
-  </div>
-    <button id="showTableButton" onclick="toggleTableVisibility()">Show/Hide Table</button>
-    <div class="table_content">
-    <table id="my_table">
-      <caption>User Details</caption>
-      <div>
-        <input type="search" id="filter_search">
+    <div id="table_content">
+      <h2>User Details</h2>
+      <div id="filter_fields">
+        <input type="search" id="filter_search" />
         <button onclick="setSearch()">Search</button>
         <button onclick="resetSearch()">Reset</button>
+        <label
+          >Rows Per Page:<select id="limitSelect" onchange="changeLimit()">
+            <option value="3">3</option>
+            <option selected="6">6</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </label>
+        <div class="page_button">
+          <button id="nextButton" onclick="next()">Next</button>
+          <button id="prevButton" onclick="previous()">Previous</button>
+        </div>
       </div>
-
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Area of Interest</Area></th>
-      </tr>
-    </thead>
-      <tbody id="table_body">
-    </tbody>
-    </table>
-  </div>
-  <div class="page_button">
-    <button id="nextButton" onclick="next()" >Next</button>
-    <button id="prevButton" onclick="previous()" >Previous</button>
-  </div>
+      <div id="table_div">
+        <table id="my_table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Area of Interest</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table_body"></tbody>
+        </table>
+      </div>
+    </div>
   </body>
   <script src="script.js"></script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
