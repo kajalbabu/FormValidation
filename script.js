@@ -5,7 +5,9 @@ var searchKey = "";
 var page = 1;
 var limit = 6;
 var key = 1;
-var edit=false;
+var edit = false;
+var editIndex = -1;
+var editKey = -1;
 function isNumberKey(evt) {
   var charCode = evt.which ? evt.which : evt.keyCode;
   if (charCode < 48 || charCode > 57) {
@@ -27,24 +29,14 @@ function allowOnlyLetters(evt) {
 }
 function toggleTableVisibility() {
   let table = document.getElementById("table_content");
-  console.log(table.style.display);
   if (table.style.display == "none") {
     table.style.display = "block";
-    console.log("hi");
     displayUser();
   } else {
     table.style.display = "none";
   }
 }
-function newFormSubmission(){
-
-}
-
-function editFormSubmission(){
-
-}
-
-function formSubmission() {
+function newFormSubmission() {
   const user_obj = {};
   user_obj.key = key++;
   user_obj.name = document.getElementById("user_name").value;
@@ -65,10 +57,44 @@ function formSubmission() {
   }
   user_obj.interest = result;
   entries.push(user_obj);
-  localStorage.setItem("entries", JSON.stringify(entries));
   displayUser();
-  // document.getElementById("user_form").reset();
-  // document.getElementById("areaOfInterestDest").reset();
+  localStorage.setItem("entries", JSON.stringify(entries));
+  resetForm();
+}
+
+function editFormSubmission() {
+  const user_obj = {};
+  user_obj.key = editKey;
+  user_obj.name = document.getElementById("user_name").value;
+  user_obj.mail = document.getElementById("user_mail").value;
+  user_obj.phone = document.getElementById("user_phone").value;
+  user_obj.age = document.getElementById("user_age").value;
+
+  if (document.getElementById("male").checked) {
+    user_obj.gender = document.getElementById("male").value;
+  } else {
+    user_obj.gender = document.getElementById("female").value;
+  }
+
+  var interested = document.getElementById("areaOfInterestDest");
+  const result = [];
+  for (var i = interested.options.length - 1; i >= 0; i--) {
+    result.push(interested.options[i].value);
+  }
+  user_obj.interest = result;
+  entries.splice(editIndex, 1, user_obj);
+  edit = false;
+  displayUser();
+  localStorage.setItem("entries", JSON.stringify(entries));
+  resetForm();
+}
+
+function formSubmission() {
+  if (edit == true) {
+    editFormSubmission();
+  } else {
+    newFormSubmission();
+  }
 }
 
 function changeLimit() {
@@ -109,7 +135,7 @@ function displayUser() {
       c4.innerHTML = user.age;
       c5.innerHTML = user.gender;
       c6.innerHTML = user.interest;
-      c7.appendChild(createEditButton(user.key));
+      c7.appendChild(createEditButton(user));
       c7.appendChild(createDeleteButton(user.key));
     }
   });
@@ -130,29 +156,54 @@ function displayUser() {
   }
 }
 
-function createEditButton(key){
+function createEditButton(user) {
   var btn = document.createElement("button");
-  btn.key=key;
-  btn.className="delete_button"
+  btn.key = user.key;
+  btn.className = "delete_button";
   btn.innerText = "Edit";
-  btn.onclick= () => {
-
-  }
+  btn.onclick = () => {
+    return editRow(user);
+  };
   return btn;
+}
+
+function editRow(user) {
+  edit = true;
+  editIndex = entries.indexOf(user);
+  editKey = user.key;
+  console.log(user);
+
+  document.getElementById("user_name").value = user.name;
+  document.getElementById("user_mail").value = user.mail;
+  document.getElementById("user_phone").value = user.phone;
+  document.getElementById("user_age").value = user.age;
+
+  if (user.gender == "male") {
+    document.getElementById("male").checked = true;
+  } else {
+    document.getElementById("female").checked = true;
+  }
+
+  //document.getElementById("areaOfInterestDest").options=user.interest;
+  // const result = [];
+  // for (var i = interested.options.length - 1; i >= 0; i--) {
+  //   result.push(interested.options[i].value);
+  // }
+  // user_obj.interest = result;
 }
 
 function createDeleteButton(key) {
   var btn = document.createElement("button");
   btn.key = key;
-  btn.className="delete_button";
+  btn.className = "delete_button";
   btn.innerText = "Delete";
   btn.onclick = () => {
-    return DeleteRow(key);
+    return deleteRow(key);
   };
   return btn;
 }
 
-function DeleteRow(key) {
+function deleteRow(key) {
   entries = entries.filter((data) => {
     return data.key != key;
   });
