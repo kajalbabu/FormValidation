@@ -4,7 +4,7 @@ var entries = localStorage.getItem("entries")
 var searchKey = "";
 var page = 1;
 var limit = 6;
-var key = 1;
+//var key = 1;
 var edit = false;
 var editIndex = -1;
 var editKey = -1;
@@ -87,23 +87,27 @@ function addFrom_list() {
 
 //Submit Form
 function formSubmission() {
-  
+  var interested = document.getElementById("areaOfInterestDest");
+  if (interested.options.length < 1) {
+    alert("Please select at least one interest in the destination.");
+    return;
+  }
+
   if (edit == true) {
     editFormSubmission();
   } else {
     newFormSubmission();
   }
-  // var interested= document.getElementById("areaOfInterestDest");
-  // if(interested.options.length<1){
-  //   alert("Please select at least one interest in the destination.");
-  //   return;
-  // }
 }
 
 //New Form
 function newFormSubmission() {
   const user_obj = {};
-  user_obj.key = key++;
+  if (entries.length > 0) {
+    user_obj.key = entries[entries.length - 1].key + 1;
+  } else {
+    user_obj.key = 1;
+  }
   user_obj.name = document.getElementById("user_name").value;
   user_obj.mail = document.getElementById("user_mail").value;
   user_obj.phone = document.getElementById("user_phone").value;
@@ -245,10 +249,17 @@ function editRow(user) {
     document.getElementById("female").checked = true;
   }
   var areaOfInterestDest = document.getElementById("areaOfInterestDest");
- // areaOfInterestDest.innerHTML='';
-  user.interest.map(interest => addOption(areaOfInterestDest, interest, interest));
+  var areaOfInterest = document.getElementById("areaOfInterest");
+  // areaOfInterestDest.innerHTML='';
+  user.interest.map((interest) => {
+    addOption(areaOfInterestDest, interest, interest);
+    for (var i = areaOfInterest.options.length - 1; i >= 0; i--) {
+      if (interest == areaOfInterest.options[i].value) {
+        removeOption(areaOfInterest, i);
+      }
+    }
+  });
 }
-
 
 //Delete Button
 function createDeleteButton(key) {
