@@ -8,6 +8,7 @@ var limit = 6;
 var edit = false;
 var editIndex = -1;
 var editKey = -1;
+
 //Phone Number Validation
 function isNumberKey(evt) {
   var charCode = evt.which ? evt.which : evt.keyCode;
@@ -294,10 +295,8 @@ function filterData(data) {
 
 //Show Data in Table
 function displayUser() {
-  let table = document.getElementById("my_table");
-  while (table.rows.length > 1) {
-    table.deleteRow(1);
-  }
+  let table = document.getElementById("table_body");
+  table.innerHTML="";
   var filteredData = filterData(entries);
   filteredData.map((user, index) => {
     if (index < limit * page && index >= limit * (page - 1)) {

@@ -29,11 +29,16 @@ tr:nth-child(even) {
 #table_div {
   max-height: 180px;
   overflow-y: auto;
-  padding: 10px 10px;
+  margin: 10px 10px;
 }
 #my_table {
   width: 100%;
 }
+/* thead{
+position: sticky;
+top: 0;
+background-color: white;  
+} */
 h2 {
   margin: 0;
   text-align: center;
