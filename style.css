@@ -160,6 +160,9 @@ caption {
 }
 .move {
   cursor: pointer;
+  background-color: rgb(158, 223, 223);
+  border: none;
+  border-radius: 3px;
 }
 .body_interest {
   display: flex;

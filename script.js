@@ -181,12 +181,15 @@ function resetAreaOfInterest() {
 
 //Show or Hide button
 function toggleTableVisibility() {
+  var shbutton=document.getElementById("showTableButton");
   let table = document.getElementById("table_content");
   if (table.style.display == "none") {
     table.style.display = "block";
+    shbutton.innerText="Hide";
     displayUser();
   } else {
     table.style.display = "none";
+    shbutton.innerText="Show";
   }
 }
 
