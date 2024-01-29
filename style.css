@@ -53,7 +53,7 @@ tbody tr:hover {
   margin-bottom: 10px;
 }
 #table_div {
-  max-height: 210px;
+  max-height: 385px;
   overflow-y: auto;
   margin: 10px 10px;
   margin-top: 10px;
@@ -88,9 +88,24 @@ h2 {
   flex-wrap: wrap;
   padding: 10px 10px;
 }
-#column-search{
-  width: 100px;
+#name-column-search,
+#email-column-search,
+#age-column-search,
+#gender-column-search,
+#phone-column-search,
+#interest-column-search,
+#time-column-search {
+  width: 95px;
   margin-top: 5px;
+}
+#sort{
+  text-align: center;
+  background-color: rgba(36, 219, 109, 0.61);
+  width: 50px;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 3px;
+  margin-left: 48%;
 }
 #showTableButton {
   padding-block: 10px;

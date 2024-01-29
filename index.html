@@ -113,6 +113,7 @@
 
     <div id="table_content">
       <h2>User Details</h2>
+      <button type="button" id="sort" onclick="sortByTime()">Sort</button>
       <div id="filter_fields">
         <input
           type="search"
@@ -137,15 +138,15 @@
         </div>
       </div>
 
-      <div id="table-out">
+      <!-- <div id="table-out">
         <div id="col-div">
           <input
             type="search"
             id="column-search"
             onkeyup="searchColumn()"
             placeholder="Search here..."
-          />
-          <select name="ColSearch" id="ColSearch" onchange="selectColumn()">
+          /> -->
+          <!-- <select name="ColSearch" id="ColSearch" onchange="selectColumn()">
             <option value="Name">Name</option>
             <option value="Email">Email</option>
             <option value="Phone">Phone</option>
@@ -153,19 +154,62 @@
             <option value="Gender">Gender</option>
             <option value="Interest">Area Of Interest</option>
           </select>
-        </div>
+        </div> -->
         <div id="table_div">
           <table id="my_table">
             <thead>
               <tr>
-                <th onclick="sortCol(0)">Name</th>
-                <th onclick="sortCol(1)">Email</th>
-                <th onclick="sortCol(2)">Phone</th>
-                <th onclick="sortCol(3)">Age</th>
-                <th onclick="sortCol(4)">Gender</th>
-                <th onclick="sortCol(5)">Area of Interest</th>
+                <th>Name <input type="button" value=">" onclick="sortCol(0)"> <input
+                  type="search"
+                  id="name-column-search"
+                  name="Name"
+                  onkeyup="searchColumn('Name')"
+                  placeholder="Search"
+                />
+                </th>
+                <th>Email <input type="button" value=">" onclick="sortCol(1)"> <input
+                  type="search"
+                  id="email-column-search"
+                  name="Email"
+                  onkeyup="searchColumn('Email')"
+                  placeholder="Search"
+                /></th>
+                <th>Phone <input type="button" value=">" onclick="sortCol(2)"> <input
+                  type="search"
+                  id="phone-column-search"
+                  name="Phone"
+                  onkeyup="searchColumn('Phone')"
+                  placeholder="Search"
+                /></th>
+                <th>Age <input type="button" value=">" onclick="sortCol(3)"> <input
+                  type="search"
+                  id="age-column-search"
+                  name="Age"
+                  onkeyup="searchColumn('Age')"
+                  placeholder="Search"
+                /></th>
+                <th>Gender <input type="button" value=">" onclick="sortCol(4)"> <input
+                  type="search"
+                  id="gender-column-search"
+                  name="Gender"
+                  onkeyup="searchColumn('Gender')"
+                  placeholder="Search"
+                /></th>
+                <th>Area of Interest <input type="button" value=">" onclick="sortCol(5)"> <input
+                  type="search"
+                  id="interest-column-search"
+                  name="Interest"
+                  onkeyup="searchColumn('Interest')"
+                  placeholder="Search"
+                /></th>
                 <th onclick="sortCol(6)">Actions</th>
-                <th onclick="sortCol(7)">Time</th>
+                <th>Time <input type="button" value=">" onclick="sortCol(7)"> <input
+                  type="search"
+                  id="time-column-search"
+                  name="Time"
+                  onkeyup="searchColumn('Time')"
+                  placeholder="Search"
+                /></th>
               </tr>
             </thead>
             <tbody id="table_body"></tbody>

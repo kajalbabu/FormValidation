@@ -2,7 +2,7 @@ var entries = localStorage.getItem("entries")
   ? JSON.parse(localStorage.getItem("entries"))
   : [];
 var searchCol = "";
-var selectCol = "Name";
+var selectCol = "";
 var searchKey = "";
 var page = 1;
 var limit = 6;
@@ -208,14 +208,17 @@ function setSearch() {
 }
 
 //Search Column
-function searchColumn() {
-  searchCol = document.getElementById("column-search").value;
+function searchColumn(column) {
+  selectCol=column;
+  searchCol = document.getElementById(`${column.toLowerCase()}-column-search`).value.toLowerCase();
+  console.log(searchCol)
   displayUser();
 }
 
-function selectColumn() {
-  selectCol = document.getElementById("ColSearch").value;
-}
+// function selectColumn() {
+//   selectCol = document.getElementById("ColSearch").value;
+// }
+
 //Reset of Search
 // function resetSearch() {
 //   document.getElementById("filter_search").value = "";
@@ -317,49 +320,52 @@ function filterData(data) {
 }
 
 //Filter Page
-// function filterPage(data) {
-//   if (searchCol == "") {
-//     return data;
-//   } else {
-//     return data.filter((item) => {
-//       switch (selectCol) {
-//         case "Name":
-//           return item.name.toLowerCase().includes(searchCol.toLowerCase());
-//           break;
-//         case "Email":
-//           return item.mail.toLowerCase().includes(searchCol.toLowerCase());
-//           break;
-//         case "Phone":
-//           return item.phone.toLowerCase().includes(searchCol.toLowerCase());
-//           break;
-//         case "Age":
-//           return item.age.toLowerCase().includes(searchCol.toLowerCase());
-//           break;
-//         case "Gender":
-//           return item.gender.toLowerCase().startsWith(searchCol.toLowerCase());
-//           break;
-//         case "Interest":
-//           return item.interest
-//             .toString()
-//             .toLowerCase()
-//             .includes(searchCol.toString().toLowerCase());
-//           break;
-//         default:
-//           break;
-//       }
-//     });
-//   }
-// }
+function filterPage(data) {
+  if (searchCol == "") {
+    return data;
+  } else {
+    return data.filter((item) => {
+      switch (selectCol) {
+        case "Name":
+          return item.name.toLowerCase().includes(searchCol.toLowerCase());
+          break;
+        case "Email":
+          return item.mail.toLowerCase().includes(searchCol.toLowerCase());
+          break;
+        case "Phone":
+          return item.phone.toLowerCase().includes(searchCol.toLowerCase());
+          break;
+        case "Age":
+          return item.age.toLowerCase().includes(searchCol.toLowerCase());
+          break;
+        case "Gender":
+          return item.gender.toLowerCase().startsWith(searchCol.toLowerCase());
+          break;
+        case "Interest":
+          return item.interest
+            .toString()
+            .toLowerCase()
+            .includes(searchCol.toString().toLowerCase());
+          break;
+        case "Time":
+          return item.time.toLowerCase().startsWith(searchCol.toLowerCase());
+          break;
+        default:
+          break;
+      }
+    });
+  }
+}
 //Show Data in Table
 function displayUser() {
   let table = document.getElementById("table_body");
   table.innerHTML = "";
-  var filteredData = filterData(entries);
-  // var GlobalFilteredData = filterData(entries);
-  // var filteredData = GlobalFilteredData.slice(limit * (page - 1), limit * page);
-  // filteredData = filterPage(filteredData);
+  //var filteredData = filterData(entries);
+  var GlobalFilteredData = filterData(entries);
+  var filteredData = GlobalFilteredData.slice(limit * (page - 1), limit * page);
+  filteredData = filterPage(filteredData);
   filteredData.map((user, index) => {
-    if (index < limit * page && index >= limit * (page - 1)) {
+    //if (index < limit * page && index >= limit * (page - 1)) {
     let row = table.insertRow();
     let c1 = row.insertCell(0);
     let c2 = row.insertCell(1);
@@ -378,7 +384,7 @@ function displayUser() {
     c7.appendChild(createEditButton(user));
     c7.appendChild(createDeleteButton(user.key));
     c8.innerHTML = user.time;
-    }
+    //}
   });
   cPrev = -1;
   let nextButton = document.getElementById("nextButton");
@@ -404,9 +410,10 @@ function sortByTime() {
 
 //Sorting by columns
 function sortCol(c) {
-  rows = document.getElementById("my_table").rows.length;
+  rows = document.getElementById("my_table").rows.length-1;
   columns = document.getElementById("my_table").rows[0].cells.length;
   arrTable = [...Array(rows)].map((e) => Array(columns));
+
 
   for (ro = 0; ro < rows; ro++) {
     for (co = 0; co < columns; co++) {
@@ -437,5 +444,6 @@ function sortCol(c) {
       document.getElementById("my_table").rows[ro].cells[co].innerHTML =
         arrTable[ro][co];
     }
+
   }
 }
