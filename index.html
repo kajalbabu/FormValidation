@@ -109,15 +109,19 @@
         </div>
       </form>
     </div>
-    <button id="showTableButton" onclick="toggleTableVisibility()">Show
-    </button>
+    <button id="showTableButton" onclick="toggleTableVisibility()">Show</button>
 
     <div id="table_content">
       <h2>User Details</h2>
       <div id="filter_fields">
-        <input type="search" id="filter_search" />
-        <button onclick="setSearch()">Search</button>
-        <button onclick="resetSearch()">Reset</button>
+        <input
+          type="search"
+          id="filter_search"
+          onkeyup="setSearch()"
+          placeholder="Search here globally...."
+        />
+        <!-- <button onclick="setSearch()">Search</button>
+        <button onclick="resetSearch()">Reset</button> -->
         <label
           >Rows Per Page:<select id="limitSelect" onchange="changeLimit()">
             <option value="3">3</option>
@@ -132,21 +136,53 @@
           <button id="prevButton" onclick="previous()">Previous</button>
         </div>
       </div>
-      <div id="table_div">
-        <table id="my_table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Area of Interest</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="table_body"></tbody>
-        </table>
+
+      <div id="table-out">
+        <div id="col-div">
+          <input
+            type="search"
+            id="column-search"
+            onkeyup="searchColumn()"
+            placeholder="Search here..."
+          />
+          <select name="ColSearch" id="ColSearch" onchange="selectColumn()">
+            <option value="Name">Name</option>
+            <option value="Email">Email</option>
+            <option value="Phone">Phone</option>
+            <option value="Age">Age</option>
+            <option value="Gender">Gender</option>
+            <option value="Interest">Area Of Interest</option>
+          </select>
+        </div>
+        <div id="table_div">
+          <table id="my_table">
+            <thead>
+              <tr>
+                <th onclick="sortCol(0)">Name</th>
+                <th onclick="sortCol(1)">Email</th>
+                <th onclick="sortCol(2)">Phone</th>
+                <th onclick="sortCol(3)">Age</th>
+                <th onclick="sortCol(4)">Gender</th>
+                <th onclick="sortCol(5)">Area of Interest</th>
+                <th onclick="sortCol(6)">Actions</th>
+                <th onclick="sortCol(7)">Time</th>
+              </tr>
+            </thead>
+            <tbody id="table_body"></tbody>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Area of Interest</th>
+                <th>Actions</th>
+                <th>Time</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </div>
   </body>

@@ -1,6 +1,8 @@
 var entries = localStorage.getItem("entries")
   ? JSON.parse(localStorage.getItem("entries"))
   : [];
+var searchCol = "";
+var selectCol = "Name";
 var searchKey = "";
 var page = 1;
 var limit = 6;
@@ -8,6 +10,7 @@ var limit = 6;
 var edit = false;
 var editIndex = -1;
 var editKey = -1;
+var cPrev = -1;
 
 //Phone Number Validation
 function isNumberKey(evt) {
@@ -105,7 +108,7 @@ function formSubmission() {
 function newFormSubmission() {
   const user_obj = {};
   if (entries.length > 0) {
-    user_obj.key = entries[entries.length - 1].key + 1;
+    user_obj.key = entries[0].key + 1;
   } else {
     user_obj.key = 1;
   }
@@ -126,7 +129,9 @@ function newFormSubmission() {
     result.push(interested.options[i].value);
   }
   user_obj.interest = result;
-  entries.push(user_obj);
+  const t = new Date();
+  user_obj.time = t.toLocaleTimeString();
+  entries.unshift(user_obj);
   displayUser();
   localStorage.setItem("entries", JSON.stringify(entries));
   resetForm();
@@ -153,6 +158,8 @@ function editFormSubmission() {
     result.push(interested.options[i].value);
   }
   user_obj.interest = result;
+  const t = new Date();
+  user_obj.time = t.toLocaleTimeString();
   entries.splice(editIndex, 1, user_obj);
   edit = false;
   displayUser();
@@ -181,15 +188,16 @@ function resetAreaOfInterest() {
 
 //Show or Hide button
 function toggleTableVisibility() {
-  var shbutton=document.getElementById("showTableButton");
+  var shbutton = document.getElementById("showTableButton");
   let table = document.getElementById("table_content");
   if (table.style.display == "none") {
     table.style.display = "block";
-    shbutton.innerText="Hide";
+    shbutton.innerText = "Hide";
     displayUser();
+    // sortCol(7);
   } else {
     table.style.display = "none";
-    shbutton.innerText="Show";
+    shbutton.innerText = "Show";
   }
 }
 
@@ -198,12 +206,22 @@ function setSearch() {
   searchKey = document.getElementById("filter_search").value;
   displayUser();
 }
-//Reset of Search
-function resetSearch() {
-  document.getElementById("filter_search").value = "";
-  searchKey = "";
+
+//Search Column
+function searchColumn() {
+  searchCol = document.getElementById("column-search").value;
   displayUser();
 }
+
+function selectColumn() {
+  selectCol = document.getElementById("ColSearch").value;
+}
+//Reset of Search
+// function resetSearch() {
+//   document.getElementById("filter_search").value = "";
+//   searchKey = "";
+//   displayUser();
+// }
 
 //No of items in a page
 function changeLimit() {
@@ -272,7 +290,7 @@ function createDeleteButton(key) {
   btn.className = "delete_button";
   btn.innerText = "Delete";
   btn.onclick = () => {
-    return deleteRow(key);
+    if (confirm("Do you really want to delete?")) return deleteRow(key);
   };
   return btn;
 }
@@ -291,37 +309,78 @@ function filterData(data) {
     return data;
   } else {
     return data.filter((item) => {
-      return item.name.toLowerCase().startsWith(searchKey.toLowerCase());
+      page = 1;
+      return item.name.toLowerCase().includes(searchKey.toLowerCase());
+
     });
   }
 }
 
+//Filter Page
+// function filterPage(data) {
+//   if (searchCol == "") {
+//     return data;
+//   } else {
+//     return data.filter((item) => {
+//       switch (selectCol) {
+//         case "Name":
+//           return item.name.toLowerCase().includes(searchCol.toLowerCase());
+//           break;
+//         case "Email":
+//           return item.mail.toLowerCase().includes(searchCol.toLowerCase());
+//           break;
+//         case "Phone":
+//           return item.phone.toLowerCase().includes(searchCol.toLowerCase());
+//           break;
+//         case "Age":
+//           return item.age.toLowerCase().includes(searchCol.toLowerCase());
+//           break;
+//         case "Gender":
+//           return item.gender.toLowerCase().startsWith(searchCol.toLowerCase());
+//           break;
+//         case "Interest":
+//           return item.interest
+//             .toString()
+//             .toLowerCase()
+//             .includes(searchCol.toString().toLowerCase());
+//           break;
+//         default:
+//           break;
+//       }
+//     });
+//   }
+// }
 //Show Data in Table
 function displayUser() {
   let table = document.getElementById("table_body");
-  table.innerHTML="";
+  table.innerHTML = "";
   var filteredData = filterData(entries);
+  // var GlobalFilteredData = filterData(entries);
+  // var filteredData = GlobalFilteredData.slice(limit * (page - 1), limit * page);
+  // filteredData = filterPage(filteredData);
   filteredData.map((user, index) => {
     if (index < limit * page && index >= limit * (page - 1)) {
-      let row = table.insertRow();
-      let c1 = row.insertCell(0);
-      let c2 = row.insertCell(1);
-      let c3 = row.insertCell(2);
-      let c4 = row.insertCell(3);
-      let c5 = row.insertCell(4);
-      let c6 = row.insertCell(5);
-      let c7 = row.insertCell(6);
-      c1.innerHTML = user.name;
-      c2.innerHTML = user.mail;
-      c3.innerHTML = user.phone;
-      c4.innerHTML = user.age;
-      c5.innerHTML = user.gender;
-      c6.innerHTML = user.interest;
-      c7.appendChild(createEditButton(user));
-      c7.appendChild(createDeleteButton(user.key));
+    let row = table.insertRow();
+    let c1 = row.insertCell(0);
+    let c2 = row.insertCell(1);
+    let c3 = row.insertCell(2);
+    let c4 = row.insertCell(3);
+    let c5 = row.insertCell(4);
+    let c6 = row.insertCell(5);
+    let c7 = row.insertCell(6);
+    let c8 = row.insertCell(7);
+    c1.innerHTML = user.name;
+    c2.innerHTML = user.mail;
+    c3.innerHTML = user.phone;
+    c4.innerHTML = user.age;
+    c5.innerHTML = user.gender;
+    c6.innerHTML = user.interest;
+    c7.appendChild(createEditButton(user));
+    c7.appendChild(createDeleteButton(user.key));
+    c8.innerHTML = user.time;
     }
   });
-
+  cPrev = -1;
   let nextButton = document.getElementById("nextButton");
   let prevButton = document.getElementById("prevButton");
 
@@ -335,5 +394,48 @@ function displayUser() {
     prevButton.style.display = "block";
   } else {
     prevButton.style.display = "none";
+  }
+}
+
+//Sorting by default
+function sortByTime() {
+  displayUser();
+}
+
+//Sorting by columns
+function sortCol(c) {
+  rows = document.getElementById("my_table").rows.length;
+  columns = document.getElementById("my_table").rows[0].cells.length;
+  arrTable = [...Array(rows)].map((e) => Array(columns));
+
+  for (ro = 0; ro < rows; ro++) {
+    for (co = 0; co < columns; co++) {
+      arrTable[ro][co] =
+        document.getElementById("my_table").rows[ro].cells[co].innerHTML;
+    }
+  }
+
+  th = arrTable.shift();
+
+  if (c !== cPrev) {
+    arrTable.sort(function (a, b) {
+      const val1 = a[c].toLowerCase();
+      const val2 = b[c].toLowerCase();
+      if (a[c] === b[c]) {
+        return 0;
+      } else {
+        return val1 > val2 ? -1 : 1;
+      }
+    });
+  } else {
+    arrTable.reverse();
+  }
+  cPrev = c;
+  arrTable.unshift(th);
+  for (ro = 0; ro < rows; ro++) {
+    for (co = 0; co < columns; co++) {
+      document.getElementById("my_table").rows[ro].cells[co].innerHTML =
+        arrTable[ro][co];
+    }
   }
 }
