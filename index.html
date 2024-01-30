@@ -117,6 +117,7 @@
       <div id="filter_fields">
         <input
           type="search"
+          value=""
           id="filter_search"
           onkeyup="setSearch()"
           placeholder="Search here globally...."
@@ -162,7 +163,9 @@
                 <th><div class="table_head_div">Name <img class="sort_button" src="./sort.png" onclick="sortArray('Name')"></img></div> <input
                   type="search"
                   id="name-column-search"
+                  value=""
                   name="Name"
+                  onkeypress="return allowOnlyLetters(event)"
                   onkeyup="searchColumn('Name')"
                   placeholder="Search"
                 />
@@ -170,6 +173,7 @@
                 <th><div class="table_head_div">Email <img class="sort_button" src="./sort.png" onclick="sortArray('Email')"></img></div> <input
                   type="search"
                   id="email-column-search"
+                  value=""
                   name="Email"
                   onkeyup="searchColumn('Email')"
                   placeholder="Search"
@@ -178,7 +182,9 @@
        
                   type="search"
                   id="phone-column-search"
+                  value=""
                   name="Phone"
+                  onkeypress="return isNumberKey(event)"
                   onkeyup="searchColumn('Phone')"
                   placeholder="Search"
                 /></th>
@@ -186,14 +192,18 @@
    
                   type="search"
                   id="age-column-search"
+                  value=""
                   name="Age"
+                  onkeypress="return isNumberKey(event)"
                   onkeyup="searchColumn('Age')"
                   placeholder="Search"
                 /></th>
                 <th><div class="table_head_div">Gender <img class="sort_button" src="./sort.png" onclick="sortArray('Gender')"></img></div> <input
                   type="search"
                   id="gender-column-search"
+                  value=""
                   name="Gender"
+                  onkeypress="return allowOnlyLetters(event)"
                   onkeyup="searchColumn('Gender')"
                   placeholder="Search"
                 /></th>
@@ -201,6 +211,7 @@
               
                   type="search"
                   id="interest-column-search"
+                  value=""
                   name="Interest"
                   onkeyup="searchColumn('Interest')"
                   placeholder="Search"
@@ -210,6 +221,7 @@
                
                   type="search"
                   id="time-column-search"
+                  value=""
                   name="Time"
                   onkeyup="searchColumn('Time')"
                   placeholder="Search"

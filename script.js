@@ -2,7 +2,7 @@ var entries = localStorage.getItem("entries")
   ? JSON.parse(localStorage.getItem("entries"))
   : [];
 var searchCol = "";
-var selectCol = "";
+var selectCol = "Name";
 var searchKey = "";
 var pageData = [];
 var page = 1;
@@ -22,20 +22,6 @@ function isNumberKey(evt) {
     return false;
   }
   return true;
-}
-
-function sortArray(key) {
-  if (key == sortKey) {
-    if (sortDir) {
-      sortDir = 0;
-    } else {
-      sortDir = 1;
-    }
-  } else {
-    sortKey = key;
-    sortDir = 1;
-  }
-  displayUser();
 }
 
 //Name Field Validaion
@@ -125,7 +111,9 @@ function formSubmission() {
 function newFormSubmission() {
   const user_obj = {};
   if (entries.length > 0) {
-    user_obj.key = entries[0].key + 1;
+    const highestKey = Math.max(...entries.map((obj) => obj.key));
+    user_obj.key = highestKey + 1;
+    // user_obj.key = entries[0].key + 1;
   } else {
     user_obj.key = 1;
   }
@@ -212,15 +200,14 @@ function toggleTableVisibility() {
     shbutton.innerText = "Hide";
     sortKey = "Time";
     sortDir = 0;
-    searchCol = "";
-    selectCol = "";
+    resetColumnSearch();
+    document.getElementById("filter_search").value = "";
     searchKey = "";
     pageData = [];
+    document.getElementById("limitSelect").value = 6;
     page = 1;
     limit = 6;
-    changeLimit();
     displayUser();
-    // sortCol(7);
   } else {
     table.style.display = "none";
     shbutton.innerText = "Show";
@@ -230,14 +217,15 @@ function toggleTableVisibility() {
 // Search For Filter
 function setSearch() {
   searchKey = document.getElementById("filter_search").value;
-  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
-  //   "";
-  // searchCol = "";
+  resetColumnSearch();
   displayUser();
 }
 
 //Search Column
 function searchColumn(column) {
+  if (selectCol != column) {
+    resetColumnSearch();
+  }
   selectCol = column;
   searchCol = document
     .getElementById(`${column.toLowerCase()}-column-search`)
@@ -245,41 +233,25 @@ function searchColumn(column) {
   displayUser();
 }
 
-// function selectColumn() {
-//   selectCol = document.getElementById("ColSearch").value;
-// }
-
-//Reset of Search
-// function resetSearch() {
-//   document.getElementById("filter_search").value = "";
-//   searchKey = "";
-//   displayUser();
-// }
-
 //No of items in a page
 function changeLimit() {
   limit = document.getElementById("limitSelect").value;
   page = 1;
-  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
-  //   "";
-  // searchCol = "";
+  resetColumnSearch();
   displayUser();
 }
 
 //Next Page button
 function next() {
-  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
-  //   "";
-  // searchCol = "";
+  console.log(selectCol);
+  resetColumnSearch();
   page++;
   displayUser();
 }
 
 //Previous Page Button
 function previous() {
-  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
-  //   "";
-  // searchCol = "";
+  resetColumnSearch();
   page--;
   displayUser();
 }
@@ -344,6 +316,13 @@ function deleteRow(key) {
   displayUser();
 }
 
+//Reset Column
+function resetColumnSearch() {
+  document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
+    "";
+  searchCol = "";
+}
+
 //Filter Data
 function filterData(data) {
   if (searchKey == "") {
@@ -365,9 +344,7 @@ function filterData(data) {
     });
   }
 }
-function test() {
-  return 0 || 1;
-}
+
 //Filter Page
 function filterPage(data) {
   if (searchCol == "") {
@@ -416,7 +393,6 @@ function displayUser() {
   pageData = sortedData.slice(limit * (page - 1), limit * page);
   var filteredData = filterPage(pageData);
   filteredData.map((user, index) => {
-    //if (index < limit * page && index >= limit * (page - 1)) {
     let row = table.insertRow();
     let c1 = row.insertCell(0);
     let c2 = row.insertCell(1);
@@ -435,7 +411,7 @@ function displayUser() {
     c7.appendChild(createEditButton(user));
     c7.appendChild(createDeleteButton(user.key));
     c8.innerHTML = user.time;
-    //}
+    // }
   });
   cPrev = -1;
   let nextButton = document.getElementById("nextButton");
@@ -454,8 +430,22 @@ function displayUser() {
   }
 }
 
-//Sorting by default
+//Sort Array by Column
+function sortArray(key) {
+  if (key == sortKey) {
+    if (sortDir) {
+      sortDir = 0;
+    } else {
+      sortDir = 1;
+    }
+  } else {
+    sortKey = key;
+    sortDir = 1;
+  }
+  displayUser();
+}
 
+//Sorting by default
 function sortData(key, dir, data) {
   switch (key) {
     case "Name":
