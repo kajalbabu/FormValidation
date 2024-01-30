@@ -113,7 +113,7 @@
 
     <div id="table_content">
       <h2>User Details</h2>
-      <button type="button" id="sort" onclick="sortByTime()">Sort</button>
+      <!-- <button type="button" id="sort" onclick="sortByTime()">Sort</button> -->
       <div id="filter_fields">
         <input
           type="search"
@@ -133,8 +133,8 @@
           </select>
         </label>
         <div class="page_button">
-          <button id="nextButton" onclick="next()">Next</button>
           <button id="prevButton" onclick="previous()">Previous</button>
+          <button id="nextButton" onclick="next()">Next</button>
         </div>
       </div>
 
@@ -159,7 +159,7 @@
           <table id="my_table">
             <thead>
               <tr>
-                <th>Name <input type="button" value=">" onclick="sortCol(0)"> <input
+                <th><div class="table_head_div">Name <img class="sort_button" src="./sort.png" onclick="sortArray('Name')"></img></div> <input
                   type="search"
                   id="name-column-search"
                   name="Name"
@@ -167,43 +167,47 @@
                   placeholder="Search"
                 />
                 </th>
-                <th>Email <input type="button" value=">" onclick="sortCol(1)"> <input
+                <th><div class="table_head_div">Email <img class="sort_button" src="./sort.png" onclick="sortArray('Email')"></img></div> <input
                   type="search"
                   id="email-column-search"
                   name="Email"
                   onkeyup="searchColumn('Email')"
                   placeholder="Search"
                 /></th>
-                <th>Phone <input type="button" value=">" onclick="sortCol(2)"> <input
+                <th><div class="table_head_div">Phone <img class="sort_button" src="./sort.png" onclick="sortArray('Phone')"></img></div> <input
+       
                   type="search"
                   id="phone-column-search"
                   name="Phone"
                   onkeyup="searchColumn('Phone')"
                   placeholder="Search"
                 /></th>
-                <th>Age <input type="button" value=">" onclick="sortCol(3)"> <input
+                <th><div class="table_head_div">Age <img class="sort_button" src="./sort.png" onclick="sortArray('Age')"></img></div> <input
+   
                   type="search"
                   id="age-column-search"
                   name="Age"
                   onkeyup="searchColumn('Age')"
                   placeholder="Search"
                 /></th>
-                <th>Gender <input type="button" value=">" onclick="sortCol(4)"> <input
+                <th><div class="table_head_div">Gender <img class="sort_button" src="./sort.png" onclick="sortArray('Gender')"></img></div> <input
                   type="search"
                   id="gender-column-search"
                   name="Gender"
                   onkeyup="searchColumn('Gender')"
                   placeholder="Search"
                 /></th>
-                <th>Area of Interest <input type="button" value=">" onclick="sortCol(5)"> <input
+                <th><div class="table_head_div">Area of Interest <img class="sort_button" src="./sort.png" onclick="sortArray('Interest')"></img></div> <input
+              
                   type="search"
                   id="interest-column-search"
                   name="Interest"
                   onkeyup="searchColumn('Interest')"
                   placeholder="Search"
                 /></th>
-                <th onclick="sortCol(6)">Actions</th>
-                <th>Time <input type="button" value=">" onclick="sortCol(7)"> <input
+                <th>Actions</th>
+                <th><div class="table_head_div">Time <img class="sort_button" src="./sort.png" onclick="sortArray('Time')"></img></div> <input
+               
                   type="search"
                   id="time-column-search"
                   name="Time"

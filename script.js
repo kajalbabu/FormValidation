@@ -4,6 +4,7 @@ var entries = localStorage.getItem("entries")
 var searchCol = "";
 var selectCol = "";
 var searchKey = "";
+var pageData = [];
 var page = 1;
 var limit = 6;
 //var key = 1;
@@ -11,6 +12,8 @@ var edit = false;
 var editIndex = -1;
 var editKey = -1;
 var cPrev = -1;
+sortKey = "Time";
+sortDir = 0;
 
 //Phone Number Validation
 function isNumberKey(evt) {
@@ -19,6 +22,20 @@ function isNumberKey(evt) {
     return false;
   }
   return true;
+}
+
+function sortArray(key) {
+  if (key == sortKey) {
+    if (sortDir) {
+      sortDir = 0;
+    } else {
+      sortDir = 1;
+    }
+  } else {
+    sortKey = key;
+    sortDir = 1;
+  }
+  displayUser();
 }
 
 //Name Field Validaion
@@ -193,6 +210,15 @@ function toggleTableVisibility() {
   if (table.style.display == "none") {
     table.style.display = "block";
     shbutton.innerText = "Hide";
+    sortKey = "Time";
+    sortDir = 0;
+    searchCol = "";
+    selectCol = "";
+    searchKey = "";
+    pageData = [];
+    page = 1;
+    limit = 6;
+    changeLimit();
     displayUser();
     // sortCol(7);
   } else {
@@ -204,14 +230,18 @@ function toggleTableVisibility() {
 // Search For Filter
 function setSearch() {
   searchKey = document.getElementById("filter_search").value;
+  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
+  //   "";
+  // searchCol = "";
   displayUser();
 }
 
 //Search Column
 function searchColumn(column) {
-  selectCol=column;
-  searchCol = document.getElementById(`${column.toLowerCase()}-column-search`).value.toLowerCase();
-  console.log(searchCol)
+  selectCol = column;
+  searchCol = document
+    .getElementById(`${column.toLowerCase()}-column-search`)
+    .value.toLowerCase();
   displayUser();
 }
 
@@ -230,17 +260,26 @@ function searchColumn(column) {
 function changeLimit() {
   limit = document.getElementById("limitSelect").value;
   page = 1;
+  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
+  //   "";
+  // searchCol = "";
   displayUser();
 }
 
 //Next Page button
 function next() {
+  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
+  //   "";
+  // searchCol = "";
   page++;
   displayUser();
 }
 
 //Previous Page Button
 function previous() {
+  // document.getElementById(`${selectCol.toLowerCase()}-column-search`).value =
+  //   "";
+  // searchCol = "";
   page--;
   displayUser();
 }
@@ -261,7 +300,6 @@ function editRow(user) {
   edit = true;
   editIndex = entries.indexOf(user);
   editKey = user.key;
-  console.log(user);
 
   document.getElementById("user_name").value = user.name;
   document.getElementById("user_mail").value = user.mail;
@@ -313,12 +351,23 @@ function filterData(data) {
   } else {
     return data.filter((item) => {
       page = 1;
-      return item.name.toLowerCase().includes(searchKey.toLowerCase());
-
+      return (
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.age.toString().includes(searchKey.toLowerCase()) ||
+        item.mail.includes(searchKey.toLowerCase()) ||
+        item.phone.toString().includes(searchKey.toLowerCase()) ||
+        item.interest
+          .toString()
+          .toLowerCase()
+          .includes(searchKey.toLowerCase()) ||
+        item.gender.includes(searchKey.toLowerCase())
+      );
     });
   }
 }
-
+function test() {
+  return 0 || 1;
+}
 //Filter Page
 function filterPage(data) {
   if (searchCol == "") {
@@ -362,8 +411,10 @@ function displayUser() {
   table.innerHTML = "";
   //var filteredData = filterData(entries);
   var GlobalFilteredData = filterData(entries);
-  var filteredData = GlobalFilteredData.slice(limit * (page - 1), limit * page);
-  filteredData = filterPage(filteredData);
+  var sortedData = sortData(sortKey, sortDir, GlobalFilteredData);
+
+  pageData = sortedData.slice(limit * (page - 1), limit * page);
+  var filteredData = filterPage(pageData);
   filteredData.map((user, index) => {
     //if (index < limit * page && index >= limit * (page - 1)) {
     let row = table.insertRow();
@@ -390,7 +441,7 @@ function displayUser() {
   let nextButton = document.getElementById("nextButton");
   let prevButton = document.getElementById("prevButton");
 
-  if (filteredData.length > limit * page) {
+  if (GlobalFilteredData.length > limit * page) {
     nextButton.style.display = "block";
   } else {
     nextButton.style.display = "none";
@@ -404,46 +455,171 @@ function displayUser() {
 }
 
 //Sorting by default
-function sortByTime() {
-  displayUser();
+
+function sortData(key, dir, data) {
+  switch (key) {
+    case "Name":
+      return data.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    case "Email":
+      return data.sort((a, b) => {
+        if (a.mail.toLowerCase() < b.mail.toLowerCase()) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    case "Phone":
+      return data.sort((a, b) => {
+        if (a.phone.toString() < b.phone.toString()) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    case "Age":
+      return data.sort((a, b) => {
+        if (a.age < b.age) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    case "Gender":
+      return data.sort((a, b) => {
+        if (a.gender.toLowerCase() < b.gender.toLowerCase()) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    case "Interest":
+      return data.sort((a, b) => {
+        if (
+          a.interest.toString().toLowerCase() <
+          b.interest.toString().toLowerCase()
+        ) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    case "Time":
+      return data.sort((a, b) => {
+        if (a.time < b.time) {
+          if (dir) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          if (dir) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      break;
+    default:
+      break;
+  }
 }
 
 //Sorting by columns
-function sortCol(c) {
-  rows = document.getElementById("my_table").rows.length-1;
-  columns = document.getElementById("my_table").rows[0].cells.length;
-  arrTable = [...Array(rows)].map((e) => Array(columns));
+// function sortCol(c) {
+//   rows = document.getElementById("my_table").rows.length-1;
+//   columns = document.getElementById("my_table").rows[0].cells.length;
+//   arrTable = [...Array(rows)].map((e) => Array(columns));
 
+//   for (ro = 0; ro < rows; ro++) {
+//     for (co = 0; co < columns; co++) {
+//       arrTable[ro][co] =
+//         document.getElementById("my_table").rows[ro].cells[co].innerHTML;
+//     }
+//   }
 
-  for (ro = 0; ro < rows; ro++) {
-    for (co = 0; co < columns; co++) {
-      arrTable[ro][co] =
-        document.getElementById("my_table").rows[ro].cells[co].innerHTML;
-    }
-  }
+//   th = arrTable.shift();
 
-  th = arrTable.shift();
+//   if (c !== cPrev) {
+//     arrTable.sort(function (a, b) {
+//       const val1 = a[c].toLowerCase();
+//       const val2 = b[c].toLowerCase();
+//       if (a[c] === b[c]) {
+//         return 0;
+//       } else {
+//         return val1 > val2 ? -1 : 1;
+//       }
+//     });
+//   } else {
+//     arrTable.reverse();
+//   }
+//   cPrev = c;
+//   arrTable.unshift(th);
+//   for (ro = 0; ro < rows; ro++) {
+//     for (co = 0; co < columns; co++) {
+//       document.getElementById("my_table").rows[ro].cells[co].innerHTML =
+//         arrTable[ro][co];
+//     }
 
-  if (c !== cPrev) {
-    arrTable.sort(function (a, b) {
-      const val1 = a[c].toLowerCase();
-      const val2 = b[c].toLowerCase();
-      if (a[c] === b[c]) {
-        return 0;
-      } else {
-        return val1 > val2 ? -1 : 1;
-      }
-    });
-  } else {
-    arrTable.reverse();
-  }
-  cPrev = c;
-  arrTable.unshift(th);
-  for (ro = 0; ro < rows; ro++) {
-    for (co = 0; co < columns; co++) {
-      document.getElementById("my_table").rows[ro].cells[co].innerHTML =
-        arrTable[ro][co];
-    }
-
-  }
-}
+//   }
+// }
