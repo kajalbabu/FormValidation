@@ -411,7 +411,6 @@ function displayUser() {
     c7.appendChild(createEditButton(user));
     c7.appendChild(createDeleteButton(user.key));
     c8.innerHTML = user.time;
-    // }
   });
   cPrev = -1;
   let nextButton = document.getElementById("nextButton");
